@@ -1,0 +1,12 @@
+//--------------------------------------------------
+// pLonLatToWptUpdate configuration block
+//
+ProcessConfig = pLonLatToWptUpdate
+{
+  AppTick   = 2
+  CommsTick = 2
+  
+  // specify variable names
+  input_var_lonlat = "LON_LAT_WPTS"
+  output_var_wpt_update = "WPT_UPDATE"
+}
