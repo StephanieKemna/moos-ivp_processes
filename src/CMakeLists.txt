@@ -5,6 +5,13 @@
 ##############################################################################
 
 #============================================================================
+# Add the libraries in the current directory to the include path
+#============================================================================
+FILE(GLOB LOCAL_LIBRARY_DIRS ./lib_*)
+INCLUDE_DIRECTORIES(${LOCAL_LIBRARY_DIRS})
+INCLUDE_DIRECTORIES(./utils)
+
+#============================================================================
 # Add CMake modules that do not come with the system
 #============================================================================
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/src/cmake_modules/")
@@ -13,7 +20,10 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/src/cmake_module
 # List the subdirectories to build...
 #============================================================================
 
-# Feb'16: add process to convert a lon/lat location to x/y wpt update
+# utils dir
+ADD_SUBDIRECTORY(utils)
+
+# Feb'16: process to convert a lon/lat location to x/y wpt update
 find_package(MOOSGeodesy)
 if ( MOOSGeodesy_FOUND )
   include_directories(${MOOSGeodesy_INCLUDE_DIRS})
@@ -23,10 +33,17 @@ if ( MOOSGeodesy_FOUND )
   add_subdirectory(pLonLatToWptUpdate)
 endif()
 
-# Sept'16: add process that can publish a certain var/val set,
+# Sept'16: process that can publish a certain var/val set,
 #          X seconds after it received the publishing of another var/val set
 add_subdirectory(pPublishAfterX)
 
+# find boost
+SET(BOOST_MIN_VERSION "1.56.0")
+find_package(Boost)
+# Nov'15-Aug'17: simulation biology
+if ( Boost_FOUND )
+  ADD_SUBDIRECTORY(uSimBioSensor)
+endif()
 
 ##############################################################################
 #                           END of CMakeLists.txt
